@@ -20,6 +20,7 @@ import com.example.videocurator.videocurator.VideoClasses.VideoDataSnippet;
 import com.example.videocurator.videocurator.VideoSearchClasses.VideoItemSnippet;
 import com.example.videocurator.videocurator.VideoSearchClasses.VideoList;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
@@ -51,11 +52,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         holder.vidtitle.setText(snippet.getTitle());
         Log.d(TAG,"Video Title"+snippet.getTitle()+" "+snippet.getVideoDataSnippetThumbnails().getVideoDataThumbHigh());
-        holder.vidlikes.setText(String.valueOf(vidlist.get(position).getVideoStatistic().getViewCount()));
+        DecimalFormat three = new DecimalFormat("#,###");
+        holder.vidlikes.setText(three.format(vidlist.get(position).getVideoStatistic().getViewCount()));
         Uri myUri = Uri.parse(String.valueOf(snippet.getVideoDataSnippetThumbnails().getVideoDataThumbHigh().getUrl()));
         Glide.with(mContext).load(myUri).into(holder.vidthumb);
         holder.vidthumb.requestLayout();
-        holder.vidthumb.getLayoutParams().height = width-100;
+        holder.vidthumb.getLayoutParams().height = width-230;
         holder.vidthumb.getLayoutParams().width = width-50;
 
     }

@@ -30,8 +30,7 @@
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentTop="true"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/img8" />
+                    android:layout_margin="10dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -139,7 +138,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/like"
+                    android:background="@mipmap/ic_like"
                     android:focusable="false"
                     android:focusableInTouchMode="false">
 
@@ -150,7 +149,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/comment"
+                    android:background="@mipmap/ic_comment"
                     android:id="@+id/comment_button"></View>
 
                 <View
@@ -158,9 +157,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/view"
-                    android:id="@+id/save_button"
-                    android:background="@drawable/save"></View>
+                    android:id="@+id/save_button"></View>
 
                 <TextView
                     android:layout_width="wrap_content"

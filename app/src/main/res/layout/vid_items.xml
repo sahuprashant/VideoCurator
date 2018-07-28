@@ -2,40 +2,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#bdbd"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="7dp"
-        android:layout_margin="4dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="10dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/vidtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/vidtitle"
-                android:text="Video_title"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="3dp"
-                android:visibility="visible"/>
+                android:text="Video_title"
+                android:visibility="visible" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginStart="3dp">
+                android:layout_marginStart="3dp"
+                android:orientation="horizontal">
 
+
+                <TextView
+                    android:id="@+id/vidlikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="3dp"
+                    android:text="Video_likes"
+                    android:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/vidlikes"
-                    android:text="Video_likes"
-                    android:layout_marginTop="10dp"
-                    android:visibility="visible"/>
+                    android:layout_marginTop="5dp"
+                    android:text=" Views" />
+
 
             </LinearLayout>
 
@@ -44,38 +58,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="5dp">
+                android:padding="-5dp">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/ic_launcher"
-                        android:id="@+id/vidthumbnail"
-                        android:layout_margin="5dp"/>
+                <ImageView
+                    android:id="@+id/vidthumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:src="@mipmap/ic_launcher" />
             </LinearLayout>
-            <LinearLayout
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
-
-                <Button
-                    android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_margin="2dp"
+                android:background="#000000"></View>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/vidlikebutton"
-                    android:layout_weight="0.5"
-                    android:translationZ="5dp"
-                    android:text="Like"/>
+                    android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/vidcommentbutton"
-                    android:layout_weight="0.5"
-                    android:translationZ="5dp"
-                    android:text="Comment"/>
 
-            </LinearLayout>
+
+                    <Button
+                        android:id="@+id/vidlikebutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:theme="@style/PrimaryFlatButton"
+                        android:text="Like"/>
+
+
+                    <Button
+                        android:id="@+id/vidcommentbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:theme="@style/PrimaryFlatButton"
+                        android:text="Comment" />
+
+
+                </LinearLayout>
         </LinearLayout>
 
 

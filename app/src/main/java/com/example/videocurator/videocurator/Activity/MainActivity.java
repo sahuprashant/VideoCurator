@@ -27,9 +27,13 @@ import com.example.videocurator.videocurator.VideoClasses.VideoLikes;
 import com.example.videocurator.videocurator.VideoSearchClasses.VideoData;
 import com.example.videocurator.videocurator.VideoSearchClasses.VideoList;
 import com.google.api.client.util.Joiner;
+import com.google.common.collect.ObjectArrays;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
     public static String TOKEN = "";
     public List<VideoList> videoList;
-    public List<VideoDataList> videodatalists;
+    public List<VideoDataList> videodatalists,videodatalists1;
     public String TAG = "MainActivity";
     public static final String BASE_URL = "https://www.googleapis.com/youtube/v3/";
     protected Handler handler;
@@ -136,20 +140,20 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
                 .build();
         ApiInterface service = retrofit.create(ApiInterface.class);
-        Call<VideoData> call = service.getVideos(TOKEN);
+        Call<VideoData> call = service.getVideos("");
 
         Log.d(TAG,"JSON FILE: "+service.toString());
         call.enqueue(new Callback<VideoData>() {
             @Override
             public void onResponse(Call<VideoData> call, Response<VideoData> response) {
-                String nextToken = response.body().getNextPageToken();
+                TOKEN = response.body().getNextPageToken();
                 videoList = response.body().getItems();
                 for (int i=0;i<10;i++){
                     videoIds.add(videoList.get(i).getId().getEtag());
                 }
                 Joiner join = Joiner.on(',');
                 String videoId = join.join(videoIds);
-                Log.d(TAG,"videoIds: "+videoList.get(0).getSnippet().getTitle());
+                Log.d(TAG,"videoIds: "+videoList.get(0).getSnippet().getTitle()+"TOKEN : "+TOKEN);
                 ApiClient ApiClient = new ApiClient();
                 ApiInterface service = ApiClient.getClient().create(ApiInterface.class);
                 Call<VideoLikes> callv = service.getVideoData(videoId);
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<VideoLikes> call, Response<VideoLikes> response) {
                         videodatalists = response.body().getItems();
+                        videoIds.clear();
                         if (!(videodatalists == null)) {
                             vidlistadapter = new RecyclerAdapter(videodatalists, MainActivity.this, width);
                             recyclerView.setAdapter(vidlistadapter);
@@ -170,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"Error in Fetching Data!!"+t.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-                TOKEN = nextToken;
+
             }
 
             @Override
@@ -190,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 loadMoreVideo(TOKEN);
                 mProgressBar.setVisibility(View.GONE);
             }
-        },5000);
+        },3000);
     }
 
     private void loadMoreVideo(String tk){
@@ -198,31 +203,39 @@ public class MainActivity extends AppCompatActivity {
         try{
             ApiClient ApiClient = new ApiClient();
             ApiInterface service = ApiClient.getClient().create(ApiInterface.class);
-            Log.d(TAG,"in try methond");
+            Log.d(TAG,"in try methond TOKEN: "+TOKEN);
             Call<VideoData> call = service.getVideos(tk);
             call.enqueue(new Callback<VideoData>() {
                 @Override
                 public void onResponse(Call<VideoData> call, Response<VideoData> response) {
-                    String nextToken = response.body().getNextPageToken();
+                    TOKEN = response.body().getNextPageToken();
+
                     videoList = response.body().getItems();
                     for (int i=0;i<10;i++){
                         videoIds.add(videoList.get(i).getId().getEtag());
                     }
                     Joiner join = Joiner.on(',');
                     String videoId = join.join(videoIds);
-                    Log.d(TAG,"videoIds: "+videoList.get(0).getSnippet().getTitle());
+                    Log.d(TAG,"videoId: "+videoIds);
                     ApiClient ApiClient = new ApiClient();
                     ApiInterface service = ApiClient.getClient().create(ApiInterface.class);
                     Call<VideoLikes> callv = service.getVideoData(videoId);
                     callv.enqueue(new Callback<VideoLikes>() {
                         @Override
                         public void onResponse(Call<VideoLikes> call, Response<VideoLikes> response) {
+                            videodatalists1 = response.body().getItems();
+                            //videodatalists.clear();
+                            videoIds.clear();
+                            videodatalists.addAll(videodatalists1);
+                            /*for (int i=0;i<10;i++) {
+                                videodatalists.add(videodatalists1.get(i));
+                            }
                             for (int i=0;i<10;i++) {
                                 videodatalists.add(response.body().getItems().get(i));
-                            }
+                            }*/
                             if (!(videodatalists == null)) {
                                 vidlistadapter.notifyDataSetChanged();
-                                Log.d(TAG,"videodatalist: "+videodatalists.get(1).getVideoDataSnippet().getTitle());
+                                Log.d(TAG,"videodatalist: "+videodatalists.get(0).getVideoDataSnippet().getTitle()+"videodatalist size: "+videodatalists.size());
                             }
                         }
 
@@ -231,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,"Error in Fetching Data!!"+t.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });
-                    TOKEN = nextToken;
+
                 }
 
                 @Override
